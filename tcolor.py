@@ -137,4 +137,4 @@ if __name__ == '__main__':
     now = datetime.datetime.now()
     print_gradient()
     ansi = get_color_by_time()
-    print_colored(ansi, str(now.hour) + ':' + str(now.minute))
+    print_colored(ansi, str(now.hour) + ':' + str(now.minute) + ':' + str(now.second))
