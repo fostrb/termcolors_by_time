@@ -1,3 +1,4 @@
+from __future__ import annotations
 import datetime
 from itertools import tee
 
@@ -28,7 +29,7 @@ from itertools import tee
 # Nautical   :6-12
 # Civil      :<6
 
-td = {
+td: dict[int, list[int]] = {
     0: [0, 89, 179],
     1: [51, 102, 255],
     2: [0, 64, 255],
@@ -56,37 +57,36 @@ td = {
 }
 
 
-def print_colored(ansi_color, text):
-    cmd = '''\x1b[38;5;''' + str(ansi_color) + '''m'''
-    print(cmd + str(text))
+def print_colored(ansi_color: 'int | str', text: str):
+    cmd: str = '\x1b[38;5;%sm' % ansi_color
+    print("%s%s" % (cmd, text))
 
 
-def get_color_string(ansi_color, text):
-    cmd = '''\x1b[38;5;''' + str(ansi_color) + '''m'''
-    return str(cmd + str(text))
+def get_color_string(ansi_color: 'int | str', text: str) -> str:
+    cmd: str = '\x1b[38;5;%sm' % ansi_color
+    return "%s%s" % (cmd, text)
 
 
-def convert_to_256(rgb_color):
-    r = rgb_color[0]
-    g = rgb_color[1]
-    b = rgb_color[2]
+def convert_to_256(rgb_color: tuple[int, int, int]) -> int:
+    r: int = rgb_color[0]
+    g: int = rgb_color[1]
+    b: int = rgb_color[2]
 
     if r == g == b:
         if r < 8:
             return 16
         if r > 248:
             return 231
-        return (((r-8)/247)*24)+232
+        return (((r - 8) / 247) * 24) + 232
 
-    r = int((r * 5) / 255)
-    g = int((g * 5) / 255)
-    b = int((b * 5) / 255)
-    # print(r, g, b)
-    ansi = 16 + 36 * r + 6 * g + b
+    r = (r * 5) / 255
+    g = (g * 5) / 255)
+    b = (b * 5) / 255)
+    ansi: int = 16 + (36 * r) + (6 * g) + b
     return ansi
 
 
-def poly_gradient(colors, steps, components=3):
+def poly_gradient(colors, steps, components: int = 3):
     def linear_gradient(start, finish, sub_steps):
         yield start
         for i in range(1, sub_steps):
