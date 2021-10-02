@@ -80,8 +80,8 @@ def convert_to_256(rgb_color: tuple[int, int, int]) -> int:
         return (((r - 8) / 247) * 24) + 232
 
     r = (r * 5) / 255
-    g = (g * 5) / 255)
-    b = (b * 5) / 255)
+    g = (g * 5) / 255
+    b = (b * 5) / 255
     ansi: int = 16 + (36 * r) + (6 * g) + b
     return ansi
 
